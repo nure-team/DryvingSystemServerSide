@@ -5,8 +5,8 @@ const USER_DIR = __DIR__. '/login/';
 require_once('google-api/vendor/autoload.php');
 
 $gClient = new Google_Client();
-$gClient->setClientId("321320177910-cqigd4kvtmglmicd2m1ljasbn45pc946.apps.googleusercontent.com");
-$gClient->setClientSecret("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");
+$gClient->setClientId(".apps.googleusercontent.com");
+$gClient->setClientSecret("");
 
 $gClient->setApplicationName("DrivingSystem");
 $gClient->setRedirectUri("http://localhost/login/controller.php");
