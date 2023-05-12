@@ -1,0 +1,63 @@
+
+.burger-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow:  0px 2px 3px rgba(0, 0, 0, 0.3); ;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav li a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#login {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0e97fa;
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+    .burger-menu {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+    }
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    nav li {
+        margin: 10px 0;
+    }
+
+    nav li a {
+        font-size: 14px;
+    }
+}

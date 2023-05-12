@@ -1,0 +1,47 @@
+.sidebar {
+    /*position: fixed;
+    left: 0;*/
+    /* height: 100%;*/
+    background: #f1edf8;
+}
+.sidebar header {
+    font-size: 22px;
+    color: #0c0b0b;
+    text-align: center;
+    line-height: 70px;
+    user-select: none;
+}
+.sidebar ul {
+    list-style: none;
+}
+.sidebar ul a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    font-family: Arial;
+    line-height: 65px;
+    font-size: 20px;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255,255,255,.1);
+    border-bottom: 1px solid #FFFFFF19;
+    transition: .4s;
+}
+/*ul li:hover a {
+    padding-left: 50px;
+}*/
+/*#profile {
+    display: flex;
+    justify-content: center;
+}*/
+/*.Container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Content {
+    width: 60%;
+    !* Здесь задаем стили для вашего контента *!
+}*/
