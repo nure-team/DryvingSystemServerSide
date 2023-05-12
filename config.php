@@ -1,4 +1,7 @@
 <?php
+const CLASSES_DIR = __DIR__. '/login/core/';
+const USER_DIR = __DIR__. '/login/';
+
 require_once('google-api/vendor/autoload.php');
 
 $gClient = new Google_Client();

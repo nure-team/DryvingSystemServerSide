@@ -14,33 +14,10 @@ class Controller {
     // print data
     function printData($id){
         $db = new Connect;
-        $user = $db -> prepare("SELECT * FROM users ORDER BY user_id");
+        $user = $db -> prepare("SELECT * FROM users WHERE user_id = '$id'");
         $user -> execute();
-        $content = '
-         <table class="table">
-            <thead class="thead-light">
-             <tr>
-               <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                 <th scope="col">Avatar</th>
-                 <th scope="col">Email</th>
-                </tr>
-         </thead>
-         
-        ';
-
-        while($userInfo = $user -> fetch(PDO::FETCH_ASSOC)){
-            $content .= '
-            <tr>
-                <td>' . $userInfo["first_name"] . '</td>
-                <td>' . $userInfo["last_name"] . '</td>
-                <td><img style="max-width: 50px;" src="' . $userInfo["avatar"] . '" alt="avatar"></td>
-                <td>' . $userInfo["email"] . '</td>
-            </tr>
-            ';
-        }
-
-        $content .= '</tbody></table>';
+        $userInfo = $user -> fetch(PDO::FETCH_ASSOC);
+        $content = '<img style="max-width: 30px;border-radius:50%;" src="' . $userInfo["avatar"] . '" alt="avatar">' . ' ' . $userInfo['first_name'] . ' ' . $userInfo['last_name'];
         return $content;
     }
 
@@ -95,16 +72,21 @@ class Controller {
             ]);
 
             if($insertUser){
-                setcookie("id", $db->lastInsertId(), time()+60*60*24*30, "/", NULL);
-                setcookie("sess", $session, time()+60*60*24*30 ,NULL);
+                session_start();
+                //setcookie("id", $db->lastInsertId(), time()+60*60*24*30, "/", NULL);
+               // setcookie("sess", $session, time()+60*60*24*30 ,NULL);
+                $_SESSION['id'] = $db->lastInsertId();
+                $_SESSION['sess'] = $session;
                 header('Location: login.php');
                 exit();
             } else {
                 return "Error inserting user!";
             }
         } else {
-            setcookie("id", $info["user_id"], time()+60*60*24*30, "/", NULL);
-            setcookie("sess", $info["session"], time()+60*60*24*30 ,NULL);
+           // setcookie("id", $info["user_id"], time()+60*60*24*30, "/", NULL);
+            //setcookie("sess", $info["session"], time()+60*60*24*30 ,NULL);
+            $_SESSION['id'] = $info["user_id"];
+            $_SESSION['sess'] = $info["session"];
             header('Location: login.php');
             exit();
         }

@@ -1,11 +1,13 @@
 <?php
+session_start();
+//defined( 'ABSPATH' ) || exit;
 require_once "core/controller.Class.php";
 require_once "../config.php";
 
 if(isset($_GET['code'])){
     $token = $gClient->fetchAccessTokenWithAuthCode($_GET['code']);
 } else {
-    header('location:login.php');
+    header('location: login.php');
     exit();
 }
 
