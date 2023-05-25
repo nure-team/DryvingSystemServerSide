@@ -44,6 +44,7 @@ if ($questionCount >= $questionNum) {
     $res = $db->query("SELECT * FROM questions WHERE test_id = {$testId} LIMIT {$questionStart}, 1");
     $row = $res->fetch();
     $question = $row['question'];
+    $question_img = $row['question_img'];
     $questionId = $row['id'];
 
     $res = $db->query("SELECT * FROM answers WHERE question_id = {$questionId}");
@@ -88,6 +89,11 @@ if ($questionCount >= $questionNum) {
                     <div class="card mt-3" style="border: 2px solid #0e97fa; border-radius: 5px;">
                         <div class="card-header">
                             <h3><?php echo $question; ?></h3>
+                            <?php
+                                if ($question_img !== NULL) {
+                            ?>
+                            <div class="d-flex justify-content-center"><img src="<?=$question_img;?>" style="height: 150px; width: 150px;"/></div>
+                            <?php } ?>
                         </div>
                         <div class="card-body bg-light">
                             <?php foreach ($answers AS $answer) { ?>
@@ -124,7 +130,7 @@ if ($questionCount >= $questionNum) {
         </div>
     <?php } ?>
     <div class="text-center mt-3">
-        <div id="root"></div>
+        <div id="root" style="margin: 20px;"></div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.min.js"></script>
@@ -135,21 +141,26 @@ if ($questionCount >= $questionNum) {
         constructor(props) {
             super(props);
             const timeLeft = localStorage.getItem('timeLeft') || 20 * 60;
+            const isTimerStopped = localStorage.getItem('isTimerStopped') === 'true';
             this.state = {
-                timeLeft: parseInt(timeLeft)
+                timeLeft: parseInt(timeLeft),
+                isTimerStopped: isTimerStopped
             };
         }
 
         componentDidUpdate() {
             localStorage.setItem('timeLeft', this.state.timeLeft);
+            localStorage.setItem('isTimerStopped', this.state.isTimerStopped);
         }
 
         componentDidMount() {
-            this.interval = setInterval(() => {
-                this.setState(prevState => ({
-                    timeLeft: prevState.timeLeft - 1
-                }));
-            }, 1000);
+            if (!this.state.isTimerStopped) {
+                this.interval = setInterval(() => {
+                    this.setState(prevState => ({
+                        timeLeft: prevState.timeLeft - 1
+                    }));
+                }, 1000);
+            }
         }
 
         componentWillUnmount() {
@@ -158,10 +169,11 @@ if ($questionCount >= $questionNum) {
 
         handleStopTimerClick = () => {
             clearInterval(this.interval);
-        }
+            this.setState({ isTimerStopped: true });
+        };
 
         render() {
-            const { timeLeft } = this.state;
+            const { timeLeft, isTimerStopped } = this.state;
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
 
@@ -170,9 +182,16 @@ if ($questionCount >= $questionNum) {
 
             return (
                 <div>
-                    <h1><b>Залишилось часу:</b> {minutes}:{seconds < 10 ? '0' : ''}{seconds}</h1>
+                    <h1>
+                        <b>Залишилось часу:</b> {minutes}:{seconds < 10 ? '0' : ''}
+                        {seconds}
+                    </h1>
                     {timeLeft === 0 && <p>Час вийшов!</p>}
-                    <button type="button" onClick={this.handleStopTimerClick}>Зупинити таймер</button>
+                    {!isTimerStopped && (
+                        <button type="button" onClick={this.handleStopTimerClick}>
+                            Зупинити таймер
+                        </button>
+                    )}
                 </div>
             );
         }
@@ -187,7 +206,7 @@ if ($questionCount >= $questionNum) {
         });
     }
 </script>
-
+<?php require_once "blocks/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,4 +1,12 @@
-<!DOCTYPE HTML>
+<?php
+global $mysqli;
+$uid = $_GET['uid'];
+echo $uid;
+
+$user_email = $mysqli->query("SELECT email FROM `users` WHERE user_id='$uid'");
+$user = mysqli_fetch_assoc($user_email);
+?>
+<!--<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,7 +18,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body>
+<body>-->
     <div class="container">
     	<h1 class="mt-5 mb-5">Review & Rating System in PHP & Mysql using Ajax</h1>
     	<div class="card">
@@ -102,7 +110,7 @@
                     <i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
 	        	</h4>
 	        	<div class="form-group">
-	        		<input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter Your Name" />
+	        		<input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter Your Name" value="<?= $user['email']; ?>"/>
 	        	</div>
 	        	<div class="form-group">
 	        		<textarea name="user_review" id="user_review" class="form-control" placeholder="Type Review Here"></textarea>
@@ -207,7 +215,7 @@ $(document).ready(function(){
         else
         {
             $.ajax({
-                url:"submit_rating.php",
+                url:"/drivingschool/rating_system/submit_rating.php",
                 method:"POST",
                 data:{rating_data:rating_data, user_name:user_name, user_review:user_review},
                 success:function(data)
@@ -228,7 +236,7 @@ $(document).ready(function(){
     function load_rating_data()
     {
         $.ajax({
-            url:"submit_rating.php",
+            url:"/drivingschool/rating_system/submit_rating.php",
             method:"POST",
             data:{action:'load_data'},
             dataType:"JSON",
